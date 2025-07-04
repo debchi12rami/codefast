@@ -25,7 +25,7 @@ export default function Home() {
     {/* hero section */}
     <section className="px-8 text-center py-16 max-w-3xl mx-auto lg:text-5xl   ">
          <Image className="mb-4  " src={productDemo}></Image>
-          <div className="flex-1">
+          <div className="flex-1 mb-1">
              <h1 className="text-4xl font-extrabold mb-6 flex col">Collect customer Feedback To build Better Products</h1>
          <div className="opacity-90 mb-10">Create a feedback board in minuits , Prioritize features and build products your customers will love 100</div>
          <ButtonLogin isLoggedIn={isLoggedIn} name={name}>
