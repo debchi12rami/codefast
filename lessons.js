@@ -52,3 +52,21 @@
 
   const greeting3 = `hello ${isLoggedIn ? name : "there"}`;
   console.log(greeting3)
+
+
+ // OR || Operator
+ // AND && Operator
+
+const hasMap = 99;
+const hasCompass = false;
+
+const isReady = hasMap && hasCompass; // true if either is true
+console.log(`Is ready: ${isReady}`); // Output: Is ready: true
+
+if (hasMap || hasCompass) {
+  console.log("You can navigate!");
+} else{
+  console.log("You need both a map and a compass to navigate successfully.");
+}
+
+

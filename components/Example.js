@@ -3,8 +3,6 @@
 'use client';
 import { use, useState } from 'react';
 
-
-
 export const Example = () =>{
     
     // Hooks should be called at the top level of the component

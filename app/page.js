@@ -3,9 +3,14 @@ import ButtonLogin from "@/components/buttonlogin";
 import FAQListItem from "@/components/faqlisttem";
 import Image from "next/image";
 import productDemo from "@/app/productDemo.jpg";
-export default function Home() {
-  const isLoggedIn = true; // Simulating login state
-  const name = "Rami"; // Simulating user name
+import clientPromise from "@/libs/mongo";
+import Example from "@/components/Example";
+import { auth } from "@/auth";
+
+export default async function Home() {
+
+  const session = await auth();
+  console.log("Session:", session);
 
   return (
   <main>
@@ -17,22 +22,21 @@ export default function Home() {
                       <a className="link link-success hidden md:inline-block" href="#pricing">pricing</a>
                        <a className="link link-success hidden md:inline-block " href="#FAQ">FAQ</a>
                   </div>
-                    <div className="bg-green-400"> <ButtonLogin isLoggedIn={isLoggedIn} name={name}>
+                    <div className="bg-green-400"> <ButtonLogin session={session}>
                     </ButtonLogin></div>
             </div>
       
     </section>
     {/* hero section */}
-    <section className="px-8 text-center py-16 max-w-3xl mx-auto lg:text-5xl   ">
-         <Image className="mb-4  " src={productDemo}></Image>
+    <section className="px-8 text-center py-16 max-w-3xl mx-auto lg:text-5xl">
+         <Image className="mb-4  " src={productDemo} alt="product"></Image>
           <div className="flex-1 mb-1">
              <h1 className="text-4xl font-extrabold mb-6 flex col">Collect customer Feedback To build Better Products</h1>
-         <div className="opacity-90 mb-10">Create a feedback board in minuits , Prioritize features and build products your customers will love 100</div>
-         <ButtonLogin isLoggedIn={isLoggedIn} name={name}>
+         <div className="opacity-90 mb-10">Create a feedback board in minuits , Prioritize features and build products your customers will love.</div>
+         <ButtonLogin session={session}>
          </ButtonLogin>
           </div>
     </section>
-
     {/* pricing section */}
     <section className="bg-base-300" id="pricing">
        <div className="py-32 px-8 mex-w-3xl mx-auto">
@@ -65,7 +69,7 @@ export default function Home() {
               {priceItem}</li> 
             })}
           </ul>
-          <ButtonLogin isLoggedIn={isLoggedIn} name={name} extraStyle="w-full"></ButtonLogin>
+          <ButtonLogin session={session} extraStyle="w-full"></ButtonLogin>
         </div>
        </div>
        {/* <Example>this is the example</Example> */}
@@ -94,6 +98,7 @@ export default function Home() {
             ))}
         </ul>
       </div>
+      <Example/>
     </section>
   </main>
   );
