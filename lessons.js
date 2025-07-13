@@ -70,3 +70,9 @@ if (hasMap || hasCompass) {
 }
 
 
+// FALSY: hasMap =
+// 0, "", null, undefined, NaN, false
+
+// TRUTHY: hasMap
+//Anything Else
+
