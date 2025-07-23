@@ -11,4 +11,4 @@ const ButtonHome = () => {
   )
 }
 
-export default ButtonHome
+export default ButtonHome;
