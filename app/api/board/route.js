@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { auth } from "@/auth"
-import connectMongo from "@/lib/mongoose";
+import connectMongo from "@/libs/mongoose";
 import User from "@/models/user";
 import Board from "@/models/board";
 
