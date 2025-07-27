@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 
-const mongoose = async () => {
+const mongoose1 = async () => {
  
     try {
-        await mongoose.connect(process.env.MONGO_URI)
+        await mongoose1.connect(process.env.MONGO_URI)
 
     } catch (e) {
           console.error("Mongoose Error")
