@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
         lowercase: true,
     },
     image: {
-        type: string,
+        type: String,
     },
     boards: [
         {
@@ -22,4 +22,4 @@ const userSchema = new mongoose.Schema({
     ]
 });
 
-export default mongoose.models.user || mongoose.model("user" , userSchema)
+export default mongoose.models.user || mongoose.model("user" , userSchema);
