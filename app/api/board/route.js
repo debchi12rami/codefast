@@ -1,66 +1,47 @@
 import { NextResponse } from 'next/server';
-import { auth } from "@/auth"
-import connectMongo from "@/libs/mongoose";
-import User from "@/models/user";
-import Board from "@/models/board";
+import { auth } from '@/auth';
+import  connectMongo from '@/libs/mongoose';
+import { User } from '@/models/User';
+import { Board } from '@/models/Board';
 
-export async function POST (request) {
+export async function POST(request){
+
     try {
-        // handle POST request
-       const body = await request.json();
 
-       // 400 Bad Request: The client sent invalid data (e.g., missing required fields)
-       // Example: User submits a form without the 'name' field
-       if (!body.name){
-           return NextResponse.json({ error: 'Name is required' }, 
-            { status: 400 });
-       };
+        // Parse the request body
+        const body = await request.json();
 
-       const session = await auth();
+      //the body field is required   
+        if(!body.name){
+            return NextResponse.json({ error: 'Board name is required' }, { status: 400 });
+        }
 
-       // 401 Unauthorized: The client is not authenticated
-       // Example: User tries to create a board without logging in
-       if(!session){
-        return NextResponse.json(
-            { error: 'Unauthorized' }
-            , {status: 401 });
-       }
+        //check if the user is authenticated
+        const session = await auth();
 
-       await connectMongo();
+        // If the session is not found, return an unauthorized response
+        if(!session){
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+        }
 
-       await User.find({email : "hey@hey.com"});
-      const user = await User.findById(session.user.id);
+        // Connect to the MongoDB database
+        await connectMongo();
 
-      const board = await Board.create({
-        userId: user._id,
-        name: body.name
-      });
+        // Find the user by their email from the session
+        const user = await User.findById(session.user.id);
 
-     user.boards.push(board._id);
+       const board = await Board.create({
+            userId : user._id,
+            name: body.name,
+        })
+
+        user.boards.push(board._id);
+
         await user.save();
 
-        // 200 OK: The request was successful
-        // Example: Board was created and linked to the user
-         return NextResponse.json();
+        return NextResponse.json({ message: 'Board created successfully', board }, { status: 201 });
 
-
-    }catch (e){
-        // 500 Internal Server Error: Something went wrong on the server
-        // Example: Database connection fails or unexpected error occurs
-        return NextResponse.json(
-            { error: e.message || 'Internal Server Error' },
-            { status: 500 }
-        );
+    }catch(e){
+        return NextResponse.json({ error: e.message }, { status: 500 });
     }
 }
-
-//200 OK: Request succeeded (GET, POST, PUT, DELETE).
-//201 Created: Resource created (POST, PUT).
-//204 No Content: Request succeeded, no response body (DELETE).
-//400 Bad Request: Invalid client data.
-//401 Unauthorized: Authentication required.
-//403 Forbidden: Authenticated, but not allowed.
-//404 Not Found: Resource does not exist.
-//409 Conflict: Resource conflict (e.g., duplicate).
-//422 Unprocessable Entity: Validation error.
-//500 Internal Server Error: Unexpected server error.

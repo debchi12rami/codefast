@@ -8,9 +8,12 @@ export default function Dashboard() {
     <section className="p-8 text-center bg-base-200 min-h-screen">
       
         {/* header */}
-        <section className='max-w-5xl mx-auto bg-base-100 px-5 py-3 flex justify-between '>
-           <ButtonLogout/>
+        <section className='max-w-5xl mx-auto bg-base-100  '>
+          <div className='px-5 py-3 flex justify-between'>
+            <ButtonLogout/>
            <ButtonHome/>
+          </div>
+           
         </section>
 
         <section className='max-w-5xl mx-auto px-5 py-12'>

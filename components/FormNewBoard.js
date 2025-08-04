@@ -4,20 +4,39 @@ import { useState } from 'react'
 
 const FormNewBoard = () => {
 
-  const [boardName, setBoardName] = useState('');
-  const [isLoading , setIsLoading] = useState(false);
-  const handleSubmit = (event) => {
+  const [name, setName] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (isLoading){
+    
+
+    if (isLoading) {
       return;
     }
 
     setIsLoading(true);
 
     try {
+      const response = await fetch('/api/board', {
+        method: 'POST',
+        body: JSON.stringify({ name }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
-    }catch(error){
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Board created:', data);
+        setName(''); // Clear the form
+      } else {
+        console.error('Failed to create board');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
       setIsLoading(false);
     }
   }
@@ -40,20 +59,16 @@ const FormNewBoard = () => {
         type="text" 
         className="input w-full" 
         placeholder="Type here"
-        value={boardName}
-        onChange={(event) => setBoardName(event.target.value)}
+        value={name}
+        onChange={(event) => setName(event.target.value)}
         />
-        
- 
       </fieldset>
 
-      <button className='btn btn-primary btn-block' type='submit'>
-        {isLoading && <span className="loading loading-spinner text-success"></span>
-}
-        Create Board
-        </button>
-
       {/* Button */}
+      <button className='btn btn-primary btn-block' type='submit'>
+        {isLoading && <span className="loading loading-spinner text-success"></span>}
+        Create Board
+      </button>
     </form>
   )
 }
